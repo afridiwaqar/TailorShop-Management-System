@@ -69,8 +69,7 @@
         </div>
         <div class="card-footer border-0">
           <p class="float-sm-left text-center"><a href="login-simple.php" class="card-link">Login</a></p>
-          <p class="float-sm-right text-center">New to Modern ? <a href="register-simple.php" class="card-link">Create
-              Account</a></p>
+         
         </div>
       </div>
     </div>
