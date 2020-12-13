@@ -10,15 +10,15 @@
           </li>
           <li class="nav-item">
             <a href="calendar.php">
-              <i class="la la-calendar"></i>
+              <i class="ft-calendar"></i>
                <span class="menu-title" data-i18n="Calendar">Calendar</span>
              </a>
           </li>
 
-          <li class=" nav-item"><a href="#"><i class="icon-basket-loaded success"></i>
+          <li class=" nav-item"><a href="#"><i class="ft-shopping-cart success"></i>
           <span class="menu-title" data-i18n="Order">Order</span></a>
             <ul class="menu-content">
-              <li><a class="menu-item" href="#"><i></i>
+              <li><a class="menu-item" href="add-order.php"><i></i>
               <span data-i18n="Vertical">Add Order</span></a>
               </li>
               <li><a class="menu-item" href="#"><i></i>
@@ -27,7 +27,7 @@
              </ul>
            </li>
         
-          <li class=" nav-item"><a href="#"><i class="icon-users"></i>
+          <li class=" nav-item"><a href="#"><i class="ft-users"></i>
           <span class="menu-title" data-i18n="customers">Customers</span></a>
             <ul class="menu-content">
               <li><a class="menu-item" href="#"><i></i>
