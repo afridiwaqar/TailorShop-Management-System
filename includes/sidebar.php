@@ -21,7 +21,7 @@
               <li><a class="menu-item" href="add-order.php"><i></i>
               <span data-i18n="Vertical">Add Order</span></a>
               </li>
-              <li><a class="menu-item" href="#"><i></i>
+              <li><a class="menu-item" href="orders.php"><i></i>
               <span data-i18n="Vertical">View/Edit Orders</span></a>
               </li>
              </ul>
