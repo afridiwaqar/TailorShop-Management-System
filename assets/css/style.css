@@ -2,3 +2,9 @@ body
 {
 	background-image: url("../../img/bg-img/bg.png");
 }
+
+.active{
+	background: #673ab7!important;
+	color: #fff!important;
+}
+

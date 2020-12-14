@@ -1,12 +1,6 @@
 <?php
-/* $baseurl = "http://demo.tailor.sarutech.com";	
-$dbname = "osaru_demo_tailor";
-$dbhost = "localhost";
-$dbuser = "osaru_tech";
-$dbpass = "Sr123Th24"; */
 
-
-$baseurl = "http://localhost/tailor/";	
+$baseurl = "http://localhost/tailorshop/";	
 $dbname = "tailor";
 $dbhost = "localhost";
 $dbuser = "root";

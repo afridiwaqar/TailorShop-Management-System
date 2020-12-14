@@ -1,14 +1,27 @@
-<!DOCTYPE html>
+
+<?php
+require_once('includes/functions.php');
+dbconnect();
+session_start();
+
+$user = $_SESSION['username'];
+$usid = $pdo->query("SELECT id FROM users WHERE username='".$user."'");
+$usid = $usid->fetch(PDO::FETCH_ASSOC);
+$uid = $usid['id'];
+
+if (!is_user()) {
+	redirect('login.php');
+}
+
+?><!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
 <!-- BEGIN: Head-->
-
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
 	
-	<meta name="author" content="PIXINVENT">
-	<title>All Orders</title>
+	<title>All Clothes Types</title>
 	<link rel="apple-touch-icon" href="app-assets/images/ico/apple-icon-120.png">
 	<link rel="shortcut icon" type="image/x-icon" href="app-assets/images/ico/favicon.ico">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CQuicksand:300,400,500,700" rel="stylesheet">
@@ -46,15 +59,15 @@
 		<div class="content-wrapper">
 			<div class="content-header row">
 				<div class="content-header-left col-md-6 col-12 mb-2">
-					<h3 class="content-header-title">Orders</h3>
+					<h3 class="content-header-title">Cloth Types</h3>
 					<div class="row breadcrumbs-top">
 						<div class="breadcrumb-wrapper col-12">
 							<ol class="breadcrumb">
-								<li class="breadcrumb-item"><a href="index.php">Home</a>
+								<li class="breadcrumb-item"><a href="index.php">Dashboard</a>
 								</li>
-								<li class="breadcrumb-item"><a href="#">Orders</a>
+								<li class="breadcrumb-item"><a href="#">Clothes</a>
 								</li>
-								<li class="breadcrumb-item active">All Orders
+								<li class="breadcrumb-item active">All Clothes Types
 								</li>
 							</ol>
 						</div>
@@ -68,7 +81,7 @@
 						<div class="col-12">
 							<div class="card">
 								<div class="card-header">
-									<h4 class="card-title"> All Orders List</h4>
+									<h4 class="card-title">Cloth Types</h4>
 									<a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
 									<div class="heading-elements">
 										<ul class="list-inline mb-0">
@@ -85,122 +98,33 @@
 											<table class="table table-striped table-bordered zero-configuration">
 												<thead>
 													<tr>
-														<th>Customer</th>
-														<th>Description</th>
-														<th>Date Received</th>
-														<th>Amount</th>
-														<th>Balance</th>
+														<th>#</th>
+														<th>Name</th>
+														<th>Sex</th>
 														<th>Action</th>
 													</tr>
 												</thead>
+												<?php
+										$sql = "SELECT id,sex, title FROM type ORDER BY id";
+										$query = $pdo->prepare($sql);
+										$query->execute();
+										$results=$query->fetchAll(PDO::FETCH_OBJ);
+										$cnt=1;
+										if($query->rowCount() > 0)
+										{
+										foreach($results as $row)
+										{	
+									?>
 												<tbody>
-													<tr>
-														<td>Tiger Nixon</td>
-														<td>System Architect</td>
-														<td>Edinburgh</td>
-														<td>61</td>
-														<td>2011/04/25</td>
-														<td>$320,800</td>
-													</tr>
-													<tr>
-														<td>Garrett Winters</td>
-														<td>Accountant</td>
-														<td>Tokyo</td>
-														<td>63</td>
-														<td>2011/07/25</td>
-														<td>$170,750</td>
-													</tr>
-													<tr>
-														<td>Ashton Cox</td>
-														<td>Junior Technical Author</td>
-														<td>San Francisco</td>
-														<td>66</td>
-														<td>2009/01/12</td>
-														<td>$86,000</td>
-													</tr>
-													<tr>
-														<td>Cedric Kelly</td>
-														<td>Senior Javascript Developer</td>
-														<td>Edinburgh</td>
-														<td>22</td>
-														<td>2012/03/29</td>
-														<td>$433,060</td>
-													</tr>
-													<tr>
-														<td>Airi Satou</td>
-														<td>Accountant</td>
-														<td>Tokyo</td>
-														<td>33</td>
-														<td>2008/11/28</td>
-														<td>$162,700</td>
-													</tr>
-													<tr>
-														<td>Brielle Williamson</td>
-														<td>Integration Specialist</td>
-														<td>New York</td>
-														<td>61</td>
-														<td>2012/12/02</td>
-														<td>$372,000</td>
-													</tr>
-													<tr>
-														<td>Herrod Chandler</td>
-														<td>Sales Assistant</td>
-														<td>San Francisco</td>
-														<td>59</td>
-														<td>2012/08/06</td>
-														<td>$137,500</td>
-													</tr>
-													<tr>
-														<td>Rhona Davidson</td>
-														<td>Integration Specialist</td>
-														<td>Tokyo</td>
-														<td>55</td>
-														<td>2010/10/14</td>
-														<td>$327,900</td>
-													</tr>
-													<tr>
-														<td>Colleen Hurst</td>
-														<td>Javascript Developer</td>
-														<td>San Francisco</td>
-														<td>39</td>
-														<td>2009/09/15</td>
-														<td>$205,500</td>
-													</tr>
-													<tr>
-														<td>Sonya Frost</td>
-														<td>Software Engineer</td>
-														<td>Edinburgh</td>
-														<td>23</td>
-														<td>2008/12/13</td>
-														<td>$103,600</td>
-													</tr>
-													<tr>
-														<td>Jena Gaines</td>
-														<td>Office Manager</td>
-														<td>London</td>
-														<td>30</td>
-														<td>2008/12/19</td>
-														<td>$90,560</td>
-													</tr>
-													<tr>
-														<td>Quinn Flynn</td>
-														<td>Support Lead</td>
-														<td>Edinburgh</td>
-														<td>22</td>
-														<td>2013/03/03</td>
-														<td>$342,000</td>
-													</tr>
-													<tr>
-														<td>Charde Marshall</td>
-														<td>Regional Director</td>
-														<td>San Francisco</td>
-														<td>36</td>
-														<td>2008/10/16</td>
-														<td>$470,600</td>
-													</tr>
-													
+													<td><?php echo $cnt; ?></td>
+											<td><?php echo htmlentities($row->title);?></td>	<td><?php if($row->sex=='0'){echo 'Male';}else{echo 'Female';};?></td>
+											<td>
+										 <a href='#' class='btn btn-info'>Edit</a>
+										<a href='#' class='btn btn-danger'>DELETE</a>
+										</td>
 												</tbody>
-												
+												<?php $cnt+=1;
+											} }?>
 											</table>
 										</div>
 									</div>

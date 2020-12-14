@@ -53,15 +53,15 @@
     <div class="content-wrapper">
       <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2">
-          <h3 class="content-header-title">Basic Forms</h3>
+          <h3 class="content-header-title">Add Order</h3>
           <div class="row breadcrumbs-top">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a>
+                <li class="breadcrumb-item"><a href="index.php">Dashboard</a>
                 </li>
-                <li class="breadcrumb-item"><a href="#">Form Layouts</a>
+                <li class="breadcrumb-item"><a href="all-orders.php">Orders</a>
                 </li>
-                <li class="breadcrumb-item active">Basic Forms
+                <li class="breadcrumb-item active">Add Order
                 </li>
               </ol>
             </div>
