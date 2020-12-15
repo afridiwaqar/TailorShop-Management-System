@@ -10,8 +10,10 @@ $uid = $usid['id'];
 
 if (!is_user()) {
 	redirect('login.php');
+}elseif (isset($_GET['id'])) {
+	$customer_id=intval($_GET['id']);
+	delete_item_from('customer',$customer_id);
 }
-
 ?>
 <!DOCTYPE html>
 <html class="loading" lang="en">
@@ -59,15 +61,15 @@ if (!is_user()) {
 		<div class="content-wrapper">
 			<div class="content-header row">
 				<div class="content-header-left col-md-6 col-12 mb-2">
-					<h3 class="content-header-title">Projects</h3>
+					<h3 class="content-header-title">All Customers</h3>
 					<div class="row breadcrumbs-top">
 						<div class="breadcrumb-wrapper col-12">
 							<ol class="breadcrumb">
-								<li class="breadcrumb-item"><a href="index.php">Home</a>
+								<li class="breadcrumb-item"><a href="index.php">Dashboard</a>
 								</li>
-								<li class="breadcrumb-item"><a href="#">Projects</a>
+								<li class="breadcrumb-item"><a href="#">Customers</a>
 								</li>
-								<li class="breadcrumb-item active">All Projects
+								<li class="breadcrumb-item active">All Customers
 								</li>
 							</ol>
 						</div>
@@ -81,7 +83,7 @@ if (!is_user()) {
 						<div class="col-12">
 							<div class="card">
 								<div class="card-header">
-									<h4 class="card-title">Zero configuration</h4>
+									<h4 class="card-title">All Customers</h4>
 									<a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
 									<div class="heading-elements">
 										<ul class="list-inline mb-0">
@@ -127,8 +129,8 @@ if (!is_user()) {
 														echo "Male";
 													}else{echo "Female";} ?></td>
 													<td>
-													<a href='customerview.php?id=$data[id]'><button type='button' class='btn btn-info btn-xs'>Edit</button></a>
-													<a href='customerview.php?id=$data[id]'><button type='button' class='btn btn-danger btn-xs'>DELETE</button></a>
+													<a href='#'><button type='button' class='btn btn-info btn-xs'>Edit</button></a>
+													<a href='all-customers.php?id=<?php echo $row->id ?>'><button type='button' class='btn btn-danger btn-xs'>DELETE</button></a>
 													</td>
 													</tr>
 													<?php $cnt+=1;
