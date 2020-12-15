@@ -130,6 +130,16 @@ function add_customer($name,$address,$phone,$sex,$email,$city,$comment,$successf
 			}
 }
 
+function delete_item_from($table,$id){
+	global $pdo;
+	$query =$pdo->exec("DELETE FROM $table WHERE id='".$id."'"); 
+	if ($query) {
+		echo "<script>alert('$table has been deleted successfully.')</script>";
+		echo "<script>document.location.reload()</script>";
+	}
+	   
+}
+
 
 
 
