@@ -109,6 +109,27 @@ function valid_password($str){
 	return preg_match('/^[a-z0-9_-]{6,18}$/', $str);
 }
 
+function add_customer($name,$address,$phone,$sex,$email,$city,$comment,$successful){
+	global $pdo;
+	global $successful;
+	$sql = "INSERT into customer(fullname,address,phonenumber,sex,email,city,comment)values(:fname,:address,:phone,:sex,:email,:city,:comment)";
+	$query = $pdo->prepare($sql);
+	$query->bindParam(':fname',$name,PDO::PARAM_STR);
+	$query->bindParam(':address',$address,PDO::PARAM_STR);
+	$query->bindParam(':phone',$phone,PDO::PARAM_STR);
+	$query->bindParam(':sex',$sex,PDO::PARAM_STR);
+	$query->bindParam(':email',$email,PDO::PARAM_STR);
+	$query->bindParam(':city',$city,PDO::PARAM_STR);
+	$query->bindParam(':comment',$comment,PDO::PARAM_STR);
+	$query->execute();
+	$lastInsert = $pdo->lastInsertId();
+	if ($lastInsert>0) {
+		echo $successful;
+	}else{
+				echo "<script>alert('Something went wrong.');</script>";
+			}
+}
+
 
 
 
