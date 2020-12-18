@@ -10,9 +10,6 @@ $uid = $usid['id'];
 
 if (!is_user()) {
 	redirect('login.php');
-}elseif (isset($_GET['id'])) {
-	$customer_id=intval($_GET['id']);
-	delete_item_from('customer',$customer_id);
 }
 ?>
 <!DOCTYPE html>
@@ -23,7 +20,7 @@ if (!is_user()) {
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
 	
-	<title>All Customers</title>
+	<title>All Staff</title>
 	<link rel="apple-touch-icon" href="app-assets/images/ico/apple-icon-120.png">
 	<link rel="shortcut icon" type="image/x-icon" href="app-assets/images/ico/favicon.ico">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CQuicksand:300,400,500,700" rel="stylesheet">
@@ -61,15 +58,15 @@ if (!is_user()) {
 		<div class="content-wrapper">
 			<div class="content-header row">
 				<div class="content-header-left col-md-6 col-12 mb-2">
-					<h3 class="content-header-title">All Customers</h3>
+					<h3 class="content-header-title">All Staff</h3>
 					<div class="row breadcrumbs-top">
 						<div class="breadcrumb-wrapper col-12">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="index.php">Dashboard</a>
 								</li>
-								<li class="breadcrumb-item"><a href="#">Customers</a>
+								<li class="breadcrumb-item"><a href="#">Staff</a>
 								</li>
-								<li class="breadcrumb-item active">All Customers
+								<li class="breadcrumb-item active">All Staff
 								</li>
 							</ol>
 						</div>
@@ -83,7 +80,7 @@ if (!is_user()) {
 						<div class="col-12">
 							<div class="card">
 								<div class="card-header">
-									<h4 class="card-title">All Customers</h4>
+									<h4 class="card-title">All Staff</h4>
 									<a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
 									<div class="heading-elements">
 										<ul class="list-inline mb-0">
@@ -115,15 +112,17 @@ if (!is_user()) {
 										$query->execute();
 										$results=$query->fetchAll(PDO::FETCH_OBJ);
 										$cnt=1;
+
 										if($query->rowCount() > 0)
 										{
 										foreach($results as $row)
 										{	
-									?>
-												<tbody>
+											$designation = $pdo->query("SELECT title FROM stafftype WHERE id= $row->id");
+									$designation =	$designation->fetch(PDO::FETCH_ASSOC);
+									?>	<tbody>
 													<tr>
 														<td><?php echo($cnt); ?></td>
-														<td><?php echo htmlentities($row->designation); ?></td>
+														<td><?php echo htmlentities($designation['title']); ?></td>
 													<td><?php echo htmlentities($row->fullname); ?></td>
 													<td><?php echo htmlentities($row->address); ?></td>
 													<td><?php echo htmlentities($row->phonenumber); ?></td>
@@ -133,8 +132,7 @@ if (!is_user()) {
 													<a href='all-customers.php?id=<?php echo $row->id ?>'><button type='button' class='btn btn-danger btn-xs'>DELETE</button></a>
 													</td>
 													</tr>
-													<?php $cnt+=1;
-											} }?>
+													<?php $cnt +=1; }} ?>
 												</tbody>
 											</table>
 										</div>
