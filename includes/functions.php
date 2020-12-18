@@ -1,5 +1,5 @@
 <?php
-
+echo "<script>import swal from 'sweetalert';</script>";
 $baseurl = "http://localhost/tailorshop/";	
 $dbname = "tailor";
 $dbhost = "localhost";
@@ -109,9 +109,8 @@ function valid_password($str){
 	return preg_match('/^[a-z0-9_-]{6,18}$/', $str);
 }
 
-function add_customer($name,$address,$phone,$sex,$email,$city,$comment,$successful){
+function add_customer($name,$address,$phone,$sex,$email,$city,$comment){
 	global $pdo;
-	global $successful;
 	$sql = "INSERT into customer(fullname,address,phonenumber,sex,email,city,comment)values(:fname,:address,:phone,:sex,:email,:city,:comment)";
 	$query = $pdo->prepare($sql);
 	$query->bindParam(':fname',$name,PDO::PARAM_STR);
@@ -124,7 +123,8 @@ function add_customer($name,$address,$phone,$sex,$email,$city,$comment,$successf
 	$query->execute();
 	$lastInsert = $pdo->lastInsertId();
 	if ($lastInsert>0) {
-		echo $successful;
+		echo "<script>alert('Customer Added Successfully!.');</script>";
+		echo "<meta http-equiv='refresh' content='2; url=all-customers.php?id=$lastInsert' />";
 	}else{
 				echo "<script>alert('Something went wrong.');</script>";
 			}
@@ -135,12 +135,28 @@ function delete_item_from($table,$id){
 	$query =$pdo->exec("DELETE FROM $table WHERE id='".$id."'"); 
 	if ($query) {
 		echo "<script>alert('$table has been deleted successfully.')</script>";
-		echo "<script>document.location.reload()</script>";
 	}
 	   
 }
 
-
+function get_all_data_from($table){
+	global $pdo;
+	global $counter;
+	global $query;
+	global $row;
+	$sql = "SELECT * FROM $table ORDER BY id";
+	$query = $pdo->prepare($sql);
+	$query->execute();
+	$results=$query->fetchAll(PDO::FETCH_OBJ);
+	$counter=1;
+	if($query->rowCount() > 0)
+	{
+		foreach($results as $row)
+		{	
+			$counter += 1;
+		}
+	 }
+}
 
 
 
