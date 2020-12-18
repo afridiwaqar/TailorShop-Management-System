@@ -20,7 +20,8 @@ if (!is_user()) {
 	$comment = htmlspecialchars($_POST["comment"]);
 	$sex = htmlspecialchars($_POST['sex']);
 
-	add_customer($fullname,$address,$phonenumber,$sex,$email,$city,$comment,$successful);
+	add_customer($fullname,$address,$phonenumber,$sex,$email,$city,$comment);
+
 }
 
 ?>
@@ -100,11 +101,6 @@ if (!is_user()) {
 		<div class="content-wrapper">
 			<div class="content-body">
 				<!-- Basic form layout section start -->
-				<?php if ($successful) {
-						$successful ="<div class='alert alert-success alert-dismissable'>
-							<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>Customer Added Successfully!</div>
-							<meta http-equiv='refresh' content='2; url=all-customers.php?id=$lastInsert' />";
-				} ?>
 				<section id="basic-form-layouts">
 					<div class="row match-height">
 						<div class="col-md-11">
