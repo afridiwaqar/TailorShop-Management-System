@@ -20,7 +20,7 @@ if (!is_user()) {
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-	<title>All Designation</title>
+	<title>All Cloth Types</title>
 	<link rel="apple-touch-icon" href="app-assets/images/ico/apple-icon-120.png">
 	<link rel="shortcut icon" type="image/x-icon" href="app-assets/images/ico/favicon.ico">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CQuicksand:300,400,500,700" rel="stylesheet">
@@ -58,15 +58,15 @@ if (!is_user()) {
 		<div class="content-wrapper">
 			<div class="content-header row">
 				<div class="content-header-left col-md-6 col-12 mb-2">
-					<h3 class="content-header-title">All Designations</h3>
+					<h3 class="content-header-title">All Cloth Types</h3>
 					<div class="row breadcrumbs-top">
 						<div class="breadcrumb-wrapper col-12">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="index.php">Dashboard</a>
 								</li>
-								<li class="breadcrumb-item"><a href="#">designation</a>
+								<li class="breadcrumb-item"><a href="#">Clothes</a>
 								</li>
-								<li class="breadcrumb-item">All Designation
+								<li class="breadcrumb-item">All Cloth Types
 								</li>
 							</ol>
 						</div>
@@ -92,7 +92,7 @@ if (!is_user()) {
 						<div class="col-12">
 							<div class="card">
 								<div class="card-header">
-									<h4 class="card-title"> Staff Designations</h4>
+									<h4 class="card-title"> Cloth Types</h4>
 									<a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
 									<div class="heading-elements">
 										<ul class="list-inline mb-0">
