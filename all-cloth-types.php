@@ -2,7 +2,6 @@
 require_once('includes/functions.php');
 dbconnect();
 session_start();
-
 $user = $_SESSION['username'];
 $usid = $pdo->query("SELECT id FROM users WHERE username='".$user."'");
 $usid = $usid->fetch(PDO::FETCH_ASSOC);
@@ -12,15 +11,16 @@ if (!is_user()) {
 	redirect('login.php');
 }
 
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
 <!-- BEGIN: Head-->
+
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-	
-	<title>All Clothes Types</title>
+	<title>All Designation</title>
 	<link rel="apple-touch-icon" href="app-assets/images/ico/apple-icon-120.png">
 	<link rel="shortcut icon" type="image/x-icon" href="app-assets/images/ico/favicon.ico">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CQuicksand:300,400,500,700" rel="stylesheet">
@@ -58,15 +58,15 @@ if (!is_user()) {
 		<div class="content-wrapper">
 			<div class="content-header row">
 				<div class="content-header-left col-md-6 col-12 mb-2">
-					<h3 class="content-header-title">Cloth Types</h3>
+					<h3 class="content-header-title">All Designations</h3>
 					<div class="row breadcrumbs-top">
 						<div class="breadcrumb-wrapper col-12">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="index.php">Dashboard</a>
 								</li>
-								<li class="breadcrumb-item"><a href="#">Clothes</a>
+								<li class="breadcrumb-item"><a href="#">designation</a>
 								</li>
-								<li class="breadcrumb-item active">All Clothes Types
+								<li class="breadcrumb-item">All Designation
 								</li>
 							</ol>
 						</div>
@@ -74,13 +74,25 @@ if (!is_user()) {
 				</div>
 			</div>
 			<div class="content-body">
-				<!-- all projects table -->
+				<?php 
+			$did = $_GET["id"];
+		if($did!=1){
+			$res = $pdo->exec("DELETE FROM type WHERE id='".$did."'");
+
+				if($res){
+					echo "<div class='alert alert-success alert-dismissable'>
+				<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>	
+					Deleted Successfully!
+				</div>";
+				}
+			}	 ?>
+				<!-- all designations table -->
 				<section id="configuration">
 					<div class="row">
 						<div class="col-12">
 							<div class="card">
 								<div class="card-header">
-									<h4 class="card-title">Cloth Types</h4>
+									<h4 class="card-title"> Staff Designations</h4>
 									<a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
 									<div class="heading-elements">
 										<ul class="list-inline mb-0">
@@ -103,27 +115,28 @@ if (!is_user()) {
 														<th>Action</th>
 													</tr>
 												</thead>
-												<?php
-										$sql = "SELECT id,sex, title FROM type ORDER BY id";
-										$query = $pdo->prepare($sql);
-										$query->execute();
-										$results=$query->fetchAll(PDO::FETCH_OBJ);
-										$cnt=1;
-										if($query->rowCount() > 0)
-										{
-										foreach($results as $row)
-										{	
-									?>
 												<tbody>
-													<td><?php echo $cnt; ?></td>
-											<td><?php echo htmlentities($row->title);?></td>	<td><?php if($row->sex=='0'){echo 'Male';}else{echo 'Female';};?></td>
-											<td>
-										 <a href='#' class='btn btn-info'>Edit</a>
-										<a href='#' class='btn btn-danger'>DELETE</a>
-										</td>
+													<?php $ddaa = $pdo->query("SELECT id,sex, title FROM type ORDER BY id");
+													$counter = 0;
+		while ($data = $ddaa->fetch(PDO::FETCH_ASSOC))
+		{	
+			$counter +=1;
+		if ($data['sex'] = '0') {
+				$data['sex'] = 'Male';
+			}else{
+				$data['sex'] = 'Female';
+			}								
+ echo "<tr>
+ <td>$counter</td>
+ <td>$data[title]</td>
+ <td>$data[sex]</td>
+ <td>
+ <a href='typeedit.php?id=$data[id]' class='btn btn-info btn-xs'>Edit</a>
+<a href='all-cloth-types.php?id=$data[id]' class='btn btn-danger btn-xs'>DELETE</a>
+</td>                                        </tr>
+	";
+	} ?>
 												</tbody>
-												<?php $cnt+=1;
-											} }?>
 											</table>
 										</div>
 									</div>
@@ -132,7 +145,7 @@ if (!is_user()) {
 						</div>
 					</div>
 				</section>
-				<!--/ all projects table -->
+				<!--/ all designations table -->
 			</div>
 		</div>
 	</div>
