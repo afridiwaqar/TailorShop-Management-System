@@ -91,8 +91,8 @@ if (!is_user()) {
 				<!-- Basic form layout section start -->
 				<?php
 				if(isset($_POST['submit'])){
-					$title = $_POST["title"];
-					$sex = $_POST["sex"];
+					$title = htmlspecialchars($_POST["title"]);
+					$sex = htmlspecialchars($_POST["sex"]);
 					if(trim($title)==""){
 						$err1=1;
 					}
