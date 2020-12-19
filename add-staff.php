@@ -2,7 +2,6 @@
 require_once('includes/functions.php');
 dbconnect();
 session_start();
-
 $user = $_SESSION['username'];
 $usid = $pdo->query("SELECT id FROM users WHERE username='".$user."'");
 $usid = $usid->fetch(PDO::FETCH_ASSOC);
@@ -10,17 +9,6 @@ $uid = $usid['id'];
 
 if (!is_user()) {
 	redirect('login.php');
-}elseif (isset($_POST['submit'])) {
-	$fullname = htmlspecialchars($_POST["fullname"]);
-	$address = htmlspecialchars($_POST["address"]);
-	$phonenumber = htmlspecialchars($_POST["phone"]);
-	$sex = htmlspecialchars($_POST["sex"]);
-	$email = htmlspecialchars($_POST["email"]);
-	$city = htmlspecialchars($_POST["city"]);
-	$comment = htmlspecialchars($_POST["comment"]);
-	$sex = htmlspecialchars($_POST['sex']);
-
-	add_customer($fullname,$address,$phonenumber,$sex,$email,$city,$comment,$successful);
 }
 
 ?>
@@ -100,6 +88,51 @@ if (!is_user()) {
 		<div class="content-wrapper">
 			<div class="content-body">
 				<!-- Basic form layout section start -->
+<?php
+
+if(isset($_POST['add_staff']))
+{
+$stafftype = $_POST["designation"];
+$fullname = $_POST["fullname"];
+$address = $_POST["address"];
+$phonenumber = $_POST["phonenumber"];
+$salary = $_POST["salary"];
+$error = 0;
+if($stafftype==0){
+	$err1=1;
+}
+if(isset($err1))
+ $error = $err1;;
+
+if (!isset($error) || $error == 0){
+$res = $pdo->exec("INSERT INTO staff SET stafftype='".$stafftype."', fullname='".$fullname."', address='".$address."', phonenumber='".$phonenumber."', salary='".$salary."'");
+if($res){
+	echo "<div class='alert alert-success alert-dismissable'>
+	<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>	
+		Staff Added Successfully!
+	</div>";
+
+}else{
+	echo "<div class='alert alert-danger alert-dismissable'>
+<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>	
+
+Some Problem Occurs, Please Try Again. 
+
+</div>";
+}
+}else {
+	if (!isset($err1) || $err1 == 1){
+		echo "<div class='alert alert-danger alert-dismissable'>
+		<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>	
+
+		Please select a Category!!!!
+
+		</div>";
+	}	
+}
+
+} 
+	?>
 				<section id="basic-form-layouts">
 					<div class="row match-height">
 						<div class="col-md-11">
@@ -124,10 +157,14 @@ if (!is_user()) {
                               <label for="designation">Staff Designation</label>
                               <select id="designation" name="designation" class="form-control">
                                 <option value="none" selected="" disabled="">Select Staff Designation</option>
-                               
-                                <option value="0">Mr. Mushe</option>
-                                <option value="1">Vendetta 1</option>
-                                
+                               <?php
+
+												$ddaa = $pdo->query("SELECT id, title FROM stafftype ORDER BY id");
+												    while ($data = $ddaa->fetch(PDO::FETCH_ASSOC))
+												    {									
+												 echo "<option value='$data[id]'>$data[title]</option>";
+													}
+												?>                                
                               </select>
                         </div>
 												<div class="form-group">
@@ -151,7 +188,7 @@ if (!is_user()) {
 												<div class="form-group">
 													<label for="phone">Phone Number</label>
 													<div class="position-relative has-icon-left">
-														<input required type="text" id="phone" class="form-control" name="phone">
+														<input required type="text" id="phone" class="form-control" name="phonenumber">
 														<div class="form-control-position">
 															<i class="ft-phone"></i>
 														</div>
@@ -173,7 +210,7 @@ if (!is_user()) {
                         
 											</div>
 											<div class="form-actions">
-												<button name="submit" type="submit" class="btn btn-primary block">
+												<button name="add_staff" type="submit" class="btn btn-primary block">
 													<i class="la la-check-square-o"></i> Submit
 												</button>
 											</div>
