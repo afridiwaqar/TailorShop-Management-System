@@ -117,7 +117,7 @@
               <a href="#"><i class="la la-user"></i><span class="menu-title" data-i18n="measurement">Measurement Settings</span></a>
                 <ul class="menu-content">
                   <li>
-                    <a class="menu-item" href="#"><i></i><span data-i18n="cloth">Cloth</span></a>
+                    <a class="menu-item" href="#"><i></i><span data-i18n="cloth">Cloth Type</span></a>
                     <ul class="menu-content">
                       <li><a class="menu-item <?php if(basename($_SERVER['SCRIPT_NAME']) == 'add-cloth-type.php'){echo 'active'; }else { echo ''; } ?>" href="add-cloth-type.php"><i></i><span data-i18n="cloth type">Add Cloth Type</span></a>
                       </li>
