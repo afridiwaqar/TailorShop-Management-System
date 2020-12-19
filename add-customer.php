@@ -205,7 +205,6 @@ if (!is_user()) {
 	</div>
     <!-- END: Content-->
 
-
     <!-- BEGIN: Customizer-->
     <?php include_once("includes/customizer.php"); ?>
     <!-- End: Customizer-->
