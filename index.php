@@ -8,7 +8,7 @@
 		redirect('login.php');
 	}
 
-	$user = $_SESSION['username'];
+$user = $_SESSION['username'];
 $usid = $pdo->query("SELECT id FROM users WHERE username='".$user."'");
 $usid = $usid->fetch(PDO::FETCH_ASSOC);
 $uid = $usid['id'];
@@ -78,7 +78,7 @@ $expense = $expensee->fetch(PDO::FETCH_ASSOC);
 			<div class="content-header row">
 			</div>
 			<div class="content-body">
-				<!-- eCommerce statistic -->
+				<!-- cards statistic -->
 				<div class="row">
 					<div class="col-xl-3 col-lg-6 col-12">
 						<div class="card pull-up">
@@ -170,103 +170,96 @@ $expense = $expensee->fetch(PDO::FETCH_ASSOC);
 					</div>
 				</div>
 				<!--/  statistic -->
-				<!--Recent Orders & Monthly Sales -->
 				<div class="row match-height">
 					<div class="col-xl-12 col-lg-12">
 						<div class="card">
-							<div class="card-content ">
-								<div id="cost-revenue" class="height-250 position-relative"></div>
-							</div>
-							<div class="card-footer">
-								<div class="row mt-1">
-									<div class="col-3 text-center">
-										<h6 class="text-muted">Total Products</h6>
-										<h2 class="block font-weight-normal">18.6 k</h2>
-										<div class="progress progress-sm mt-1 mb-0 box-shadow-2">
-											<div class="progress-bar bg-gradient-x-info" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-										</div>
-									</div>
-									<div class="col-3 text-center">
-										<h6 class="text-muted">Total Sales</h6>
-										<h2 class="block font-weight-normal">64.54 M</h2>
-										<div class="progress progress-sm mt-1 mb-0 box-shadow-2">
-											<div class="progress-bar bg-gradient-x-warning" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-										</div>
-									</div>
-									<div class="col-3 text-center">
-										<h6 class="text-muted">Total Cost</h6>
-										<h2 class="block font-weight-normal">24.38 B</h2>
-										<div class="progress progress-sm mt-1 mb-0 box-shadow-2">
-											<div class="progress-bar bg-gradient-x-danger" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-										</div>
-									</div>
-									<div class="col-3 text-center">
-										<h6 class="text-muted">Total Revenue</h6>
-										<h2 class="block font-weight-normal">36.72 M</h2>
-										<div class="progress progress-sm mt-1 mb-0 box-shadow-2">
-											<div class="progress-bar bg-gradient-x-success" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+								<div class="card-content ">
+										<table class="table" width="100" border="1" cellspacing="0" cellpadding="0">
+                          <tr>
+                           <th scope="col">Income, Expenses and Profit for past 30 days</th>
+                          </tr>
+                          <tr>
+                            <td><canvas id="myChart"></canvas></td>
+                          </tr>  
+                        </table>
 										</div>
 									</div>
 								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!--/Recent Orders & Monthly Sales -->
-				<?php 
-					function income($today,$pdo) {
-				$sites = $pdo->query("SELECT sum(amount) as sum FROM `income` WHERE date LIKE '%$today%'");
-				$sites = $sites->fetch(PDO::FETCH_ASSOC);
-				$sites2 = $pdo->query("SELECT sum(amount) as sum FROM `order` WHERE date_received LIKE '%$today%'");
-				$sites2 = $sites2->fetch(PDO::FETCH_ASSOC);
-				$site = $sites['sum'] + $sites2['sum'];
-				return $site;
-			}
-			function profit($today,$pdo) {
-				$sites = $pdo->query("SELECT sum(amount) as sum FROM `income` WHERE date LIKE '%$today%'");
-				$sites = $sites->fetch(PDO::FETCH_ASSOC);
-				$sites2 = $pdo->query("SELECT sum(amount) as sum FROM `order` WHERE date_received LIKE '%$today%'");
-				$sites2 = $sites2->fetch(PDO::FETCH_ASSOC);
-				$site1 = $sites['sum'] + $sites2['sum'];
-				$site2 = $pdo->query("SELECT sum(amount) as sum FROM expense WHERE date LIKE '%$today%'");
-				$site2 = $site2->fetch(PDO::FETCH_ASSOC);
-				$site = $site1 - $site2['sum'];
-				if($site<0) $site=0;
-				return $site;
-			}
-			function expenses($today,$pdo) {
-				$sites = $pdo->query("SELECT sum(amount) as sum FROM expense WHERE date LIKE '%$today%'");
-				$sites = $sites->fetch(PDO::FETCH_ASSOC);
-				$site = $sites['sum'];
-				return $site;	
-			}
-
-			$income = '"'.income( date('m/d/Y', (strtotime(date('m/d/Y'))-((29*60*60*24)))),$pdo).'"';
-			$dates = '"'.date('Y-m-d', strtotime(date('Y-m-d')) - (29*60*60*24) ).'"';	
-					
-			for ($i = 28; $i >= 1; $i--) {
-				$income .= ',"'.income( date('m/d/Y', (strtotime(date('m/d/Y'))-($i*60*60*24)) ) ,$pdo).'"';
-				$dates .= ',"'.( date('Y-m-d', (strtotime(date('Y-m-d'))-($i*60*60*24)) ) ).'"';	
-			}
-			$dates .= ',"'.date('Y-m-d').'"';
-			$income .= ',"'.income(date('m/d/Y'),$pdo).'"';
-
-			$expenses = '"'.expenses( date('Y-m-d', (strtotime(date('Y-m-d'))-((29*60*60*24)))) ,$pdo).'"';
-			for ($i = 28; $i >= 1; $i--) {
-				$expenses .= ',"'.expenses( date('Y-m-d', (strtotime(date('Y-m-d'))-($i*60*60*24)) ) ,$pdo).'"';
-			}
-			$expenses .= ',"'.expenses(date('Y-m-d'),$pdo).'"';
-
-			$profit = '"'.profit( date('Y-m-d', (strtotime(date('Y-m-d'))-((29*60*60*24)))) ,$pdo).'"';
-			for ($i = 28; $i >= 1; $i--) {
-				$profit .= ',"'.profit( date('Y-m-d', (strtotime(date('Y-m-d'))-($i*60*60*24)) ) ,$pdo).'"';
-			}
-			$profit .= ',"'.profit(date('Y-m-d'),$pdo).'"';
-				?>
+							</div>				
 			</div>
 		</div>
 	</div>
 	<!-- END: Content-->
+	<?php
+$income = '"'.income( date('m/d/Y', (strtotime(date('m/d/Y'))-((29*60*60*24)))),$pdo).'"';
+$dates = '"'.date('Y-m-d', strtotime(date('Y-m-d')) - (20*60*60*24) ).'"';	
+		
+for ($i = 28; $i >= 1; $i--) {
+	$income .= ',"'.income( date('m/d/Y', (strtotime(date('m/d/Y'))-($i*60*60*24)) ) ,$pdo).'"';
+	$dates .= ',"'.( date('Y-m-d', (strtotime(date('Y-m-d'))-($i*60*60*24)) ) ).'"';	
+}
+$dates .= ',"'.date('Y-m-d').'"';
+$income .= ',"'.income(date('m/d/Y'),$pdo).'"';
+
+$expenses = '"'.expenses( date('Y-m-d', (strtotime(date('Y-m-d'))-((29*60*60*24)))) ,$pdo).'"';
+for ($i = 28; $i >= 1; $i--) {
+	$expenses .= ',"'.expenses( date('Y-m-d', (strtotime(date('Y-m-d'))-($i*60*60*24)) ) ,$pdo).'"';
+}
+$expenses .= ',"'.expenses(date('Y-m-d'),$pdo).'"';
+
+$profit = '"'.profit( date('Y-m-d', (strtotime(date('Y-m-d'))-((29*60*60*24)))) ,$pdo).'"';
+for ($i = 28; $i >= 1; $i--) {
+	$profit .= ',"'.profit( date('Y-m-d', (strtotime(date('Y-m-d'))-($i*60*60*24)) ) ,$pdo).'"';
+}
+$profit .= ',"'.profit(date('Y-m-d'),$pdo).'"';
+?>
+<script>
+//current year income / expense	
+var barChartData3 = {
+		labels : [<?php echo $dates; ?>],
+		datasets : [
+			{
+				label: "Expenses",
+				fillColor : "rgba(220,0,0,0.2)",
+				strokeColor : "rgba(220,0,0,1)",
+				pointColor : "rgba(220,0,0,1)",
+				pointStrokeColor : "#fff",
+				pointHighlightFill : "#fff",
+				pointHighlightStroke : "rgba(220,220,220,1)",
+				data : [<?php echo $expenses; ?>]
+			} ,
+			{
+				label: "Income",
+				fillColor : "rgba(0,120,0,0.2)",
+				strokeColor : "rgba(0,120,0,1)",
+				pointColor : "rgba(0,320,0,1)",
+				pointStrokeColor : "#fff",
+				pointHighlightFill : "#fff",
+				pointHighlightStroke : "rgba(220,220,220,1)",
+				data : [<?php echo $income; ?>]
+			} ,
+			{
+				label: "Profit",
+				fillColor : "rgba(13, 31, 162,0.2)",
+				strokeColor : "rgba(13, 31, 162,1)",
+				pointColor : "rgba(13, 31, 162,1)",
+				pointStrokeColor : "#fff",
+				pointHighlightFill : "#fff",
+				pointHighlightStroke : "rgba(220,220,220,1)",
+				data : [<?php echo $profit; ?>]
+			} 
+		]
+
+	}
+	window.onload = function(){
+		var ctx = document.getElementById("myChart").getContext("2d");
+		window.myBar = new Chart(ctx).Bar(barChartData3, {
+			responsive : true
+		});
+	}	 
+
+	
+</script>
 	<!-- BEGIN: Customizer-->
 	<?php include_once 'includes/customizer.php'; ?>
 	<!-- End: Customizer-->
@@ -291,6 +284,8 @@ $expense = $expensee->fetch(PDO::FETCH_ASSOC);
 	<!-- END: Theme JS-->
 	<!-- BEGIN: Page JS-->
 	<script src="app-assets/js/scripts/pages/dashboard-ecommerce.min.js"></script>
+	<script type="text/javascript" src="Chart.js"></script>
+<script type="text/javascript" src="Chart.min.js"></script>
 	<!-- END: Page JS-->
 </body>
 <!-- END: Body-->
