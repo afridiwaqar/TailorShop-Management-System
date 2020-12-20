@@ -119,7 +119,7 @@ $rname =	$rname->fetch(PDO::FETCH_ASSOC);echo"
 	<td>$counter</td>
 	<td>$rname[title]</td>
 	<td>$data[title]</td>
-	<td><img src='img/part/$data[image]'></td>
+	<td><img width=60 src='img/part/$data[image]'></td>
 	<td>
 	<a href='partedit.php?id=$data[id]' class='btn btn-info btn-xs'>Edit</a>
 	<a href='measurement-parts.php?part_id=$data[id]'><button type='button' class='btn btn-danger btn-xs'>DELETE</button></a>
