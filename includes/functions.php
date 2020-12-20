@@ -158,6 +158,31 @@ function get_all_data_from($table){
 	 }
 }
 
-
+function income($today,$pdo) {
+	$sites = $pdo->query("SELECT sum(amount) as sum FROM `income` WHERE date LIKE '%$today%'");
+	$sites = $sites->fetch(PDO::FETCH_ASSOC);
+	$sites2 = $pdo->query("SELECT sum(amount) as sum FROM `order` WHERE date_received LIKE '%$today%'");
+	$sites2 = $sites2->fetch(PDO::FETCH_ASSOC);
+	$site = $sites['sum'] + $sites2['sum'];
+	return $site;
+}
+function profit($today,$pdo) {
+	$sites = $pdo->query("SELECT sum(amount) as sum FROM `income` WHERE date LIKE '%$today%'");
+	$sites = $sites->fetch(PDO::FETCH_ASSOC);
+	$sites2 = $pdo->query("SELECT sum(amount) as sum FROM `order` WHERE date_received LIKE '%$today%'");
+	$sites2 = $sites2->fetch(PDO::FETCH_ASSOC);
+	$site1 = $sites['sum'] + $sites2['sum'];
+	$site2 = $pdo->query("SELECT sum(amount) as sum FROM expense WHERE date LIKE '%$today%'");
+	$site2 = $site2->fetch(PDO::FETCH_ASSOC);
+	$site = $site1 - $site2['sum'];
+	if($site<0) $site=0;
+	return $site;
+}
+function expenses($today,$pdo) {
+	$sites = $pdo->query("SELECT sum(amount) as sum FROM expense WHERE date LIKE '%$today%'");
+	$sites = $sites->fetch(PDO::FETCH_ASSOC);
+	$site = $sites['sum'];
+	return $site;	
+}
 
 ?>
