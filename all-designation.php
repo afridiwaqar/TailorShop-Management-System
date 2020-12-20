@@ -9,6 +9,9 @@ $uid = $usid['id'];
 
 if (!is_user()) {
 	redirect('login.php');
+}elseif (isset($_GET['id'])) {
+	$deleteid = intval($_GET['id']);
+	delete_item_from('stafftype',$deleteid);
 }
 ?>
 <!DOCTYPE html>
@@ -102,17 +105,20 @@ if (!is_user()) {
 													</tr>
 												</thead>
 												<tbody>
-													<?php
+<?php
 $ddaa = $pdo->query("SELECT id, title FROM stafftype ORDER BY id");
+		$counter = 0;
     while ($data = $ddaa->fetch(PDO::FETCH_ASSOC))
-    {									
- echo "<tr>                                            <td>$data[id]</td>
+    {			
+    $counter +=1;						
+ echo "<tr>                                            <td>$counter</td>
            <td>$data[title]</td><td>
 							<a href='staffcatedit.php?id=$data[id]' class='btn btn-info btn-xs'>Edit</a>
-							<a href='staffcatdelete.php?id=$data[id]' class='btn btn-danger btn-xs'>DELETE</a>
+							<a href='all-designation.php?id=$data[id]' class='btn btn-danger btn-xs'>DELETE</a>
 						</td>
           </tr>";
 	}
+	
 ?>
 												</tbody>
 											</table>
