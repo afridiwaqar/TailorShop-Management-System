@@ -108,34 +108,44 @@ if (!is_user()) {
 													<th>Action</th>
 												</tr>
 												</thead>
-												<?php
-										$sql = "SELECT * FROM customer ORDER BY id";
-										$query = $pdo->prepare($sql);
-										$query->execute();
-										$results=$query->fetchAll(PDO::FETCH_OBJ);
-										$cnt=1;
-										if($query->rowCount() > 0)
-										{
-										foreach($results as $row)
-										{	
-									?>
 												<tbody>
-													<tr>
-														<td><?php echo($cnt); ?></td>
-													<td><?php echo htmlentities($row->fullname); ?></td>
-													<td><?php echo htmlentities($row->address); ?></td>
-													<td><?php echo htmlentities($row->phonenumber); ?></td>
-													<td><?php if ($row->sex=="0") {
-														echo "Male";
-													}else{echo "Female";} ?></td>
-													<td>
-													<a href='#'><button type='button' class='btn btn-info btn-xs'>Edit</button></a>
-													<a href='all-customers.php?id=<?php echo $row->id ?>'><button type='button' class='btn btn-danger btn-xs'>DELETE</button></a>
-													</td>
-													</tr>
-													<?php $cnt+=1;
-											} }?>
-												</tbody>
+<?php
+$ddaa = $pdo->query("SELECT id, address, fullname, phonenumber, sex FROM customer ORDER BY id");
+$counter = 1;
+    while ($data = $ddaa->fetch(PDO::FETCH_ASSOC))
+    {
+		if($data['sex'] ==0)
+		{
+			$data['sex']='Male';
+		}
+		else
+		{
+			$data['sex']='Female';
+		}
+		$mes = $pdo->query("SELECT * FROM `measurement` WHERE `customer_id` = ".$data['id']." LIMIT 1");
+		if(!$mes->fetch(PDO::FETCH_ASSOC)){
+		$measure = '<a href="addmeasurement.php?id='.$data['id'].'" class="btn btn-warning btn-xs">Add Meas</a>';
+		}
+		else{
+		$measure = '<a href="editmeasurement.php?id='.$data['id'].'" class="btn btn-warning btn-xs">Edit Meas</a>';
+		}
+ echo "
+	<tr>
+	 <td>$counter</td>
+	 <td><a href='customeredit.php?id=$data[id]'>$data[fullname]</a></td>
+	 <td>$data[address]</td>
+	 <td>$data[phonenumber]</td>
+	 <td>$data[sex]</td>
+	 <td><a href='orderadd.php?id=$data[id]' class='btn btn-success btn-xs'>New Order</a>$measure
+		<a href='all-customers.php?id=$data[id]'><button type='button' class='btn btn-danger btn-xs'>DELETE</button></a>
+		</td>
+	</tr>
+";
+$counter +=1;
+
+}
+?>
+</tbody>
 											</table>
 										</div>
 									</div>
