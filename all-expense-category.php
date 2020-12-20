@@ -77,7 +77,7 @@ if (!is_user()) {
 				</div>
 			</div>
 			<div class="content-body">
-				<!-- all designations table -->
+				<!-- all expense category table -->
 				<section id="configuration">
 					<div class="row">
 						<div class="col-12">
@@ -108,10 +108,12 @@ if (!is_user()) {
 												<tbody>
 													<?php
 											$ddaa = $pdo->query("SELECT id, title FROM expcat ORDER BY id");
+												$counter = 0;
 											    while ($data = $ddaa->fetch(PDO::FETCH_ASSOC))
-											    {									
+											    {								
+											    $counter +=1;	
 											 echo "<tr>
-											 <td>$data[id]</td>
+											 <td>$counter</td>
 											 <td>$data[title]</td>
 											 <td>
 											   <a href='expcatedit.php?id=$data[id]' class='btn btn-info btn-xs'>Edit</a>
