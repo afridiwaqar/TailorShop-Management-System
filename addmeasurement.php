@@ -87,7 +87,7 @@
         <!-- Basic form layout section start -->
            <?php
 
-if($_POST)
+if(isset($_POST['add_measurement']))
 {
   $id = $_GET["id"];
   foreach ($_POST as $key => $value)
@@ -100,13 +100,9 @@ if($_POST)
   }
 echo "<div class='alert alert-success alert-dismissable'>
 <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>  
-
 Measurements Added Successfully!
-
 </div>
-<meta http-equiv='refresh' content='2; url=orderadd.php?id=$id' /> ";
-
-
+<meta http-equiv='refresh' content='2; url=add-order.php?id=$id' /> ";
 
 } 
   ?>
