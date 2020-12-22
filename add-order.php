@@ -1,3 +1,16 @@
+<?php 
+  require_once('includes/functions.php');
+  dbconnect();
+  session_start();
+
+  $user = $_SESSION['username'];
+  $usid = $pdo->query("SELECT id FROM users WHERE username='".$user."'");
+  $usid = $usid->fetch(PDO::FETCH_ASSOC);
+  $uid = $usid['id'];
+
+  if (!is_user()) {
+    redirect('login.php');}
+?>
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
   <!-- BEGIN: Head-->
@@ -32,7 +45,6 @@
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <!-- END: Custom CSS-->
-
   </head>
   <!-- END: Head-->
 
@@ -48,7 +60,7 @@
     <?php include_once("includes/sidebar.php"); ?>
     <!-- END: Main Menu-->
     <!-- BEGIN: Content-->
-    	<div class="app-content content">
+    <div class="app-content content">
     <div class="content-overlay"></div>
     <div class="content-wrapper">
       <div class="content-header row">
@@ -71,6 +83,50 @@
       </div>
       <div class="content-body">
         <!-- Basic form layout section start -->
+            <?php
+
+if($_POST)
+{
+
+$customer = $_POST["customer"];
+$desc = $_POST["desc"];
+$date_received = $_POST["date_received"];
+$completed = $_POST["completed"];
+$date_collected = $_POST["date_collected"];
+$amount = $_POST["amount"];
+$paid = $_POST["paid"];
+$received_by = $_POST["received_by"];
+
+$name = $pdo->query("SELECT fullname FROM customer WHERE id='".$customer."'");
+$name = $name->fetch(PDO::FETCH_ASSOC);
+$name = $name['fullname'].": ". substr($desc,0,100);
+
+  if($completed == 'No'){
+    $color = '#a00000';
+  }
+  else{
+    $color = '#00a014';
+  }
+  $res = $pdo->exec("INSERT INTO `order`(`customer`, `description`, `amount`, `paid`, `received_by`, `date_received`, `completed`, `date_collected`) VALUES ('$customer','$desc','$amount','$paid','$received_by','$date_received','$completed','$date_collected')");
+  $cid = $pdo->lastInsertId();
+  $res2 = $pdo->exec("INSERT INTO `calendar`(`title`, `description`, `start`, `end`, `allDay`, `color`, `url`, `category`, `user_id`) VALUES ('$name','$desc','$date_received','$date_collected','true','$color','../orderedit.php?id=$cid','Orders','$uid')");
+  if($res){
+    echo "<div class='alert alert-success alert-dismissable'>
+      <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>  
+    Order Added Successfully!
+    </div>";
+
+} else {
+  echo "<div class='alert alert-danger alert-dismissable'>
+      <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>  
+    Something went wrong!
+    </div>";
+}
+
+
+
+} 
+  ?>
         <section id="basic-form-layouts">
           <div class="row match-height">
             <div class="col-md-11">
@@ -89,32 +145,42 @@
                 </div>
                 <div class="card-content collapse show">
                   <div class="card-body">
-                    <form class="form" validate>
+                    <form method="Post" class="form" validate>
                       <div class="form-body">
                       	<div class="form-group">
                               <label for="customer">Select Customer</label>
                               <select id="customer" name="customer" class="form-control round">
                                 <option value="none" selected="" disabled="">Select Customer</option>
-                                <option value="design">design</option>
-                                <option value="development">development</option>
-                                <option value="illustration">illustration</option>
-                                <option value="branding">branding</option>
-                                <option value="video">video</option>
+                                <?php
+
+                $ddaa = $pdo->query("SELECT id, fullname FROM customer ORDER BY id");
+                    while ($data = $ddaa->fetch(PDO::FETCH_ASSOC))
+                    {
+                    if(isset($_GET['id']) && $data['id'] == $_GET['id'])
+                    {
+                      echo "<option value='$data[id]' selected='selected'>$data[fullname]</option>";
+                    }
+                    else
+                    {
+                       echo "<option value='$data[id]'>$data[fullname]</option>";
+                    }
+                  }
+                ?>
                               </select>
                         </div>
                         
                         <div class="form-group">
                           <label for="description">Description</label>
-                          <textarea id="description" rows="3" class="form-control round" name="description" placeholder="description"></textarea>
+                          <textarea id="description" rows="3" class="form-control round" name="desc" placeholder="description"></textarea>
                         </div>
 
                         <div class="form-group">
                           <label for="datereceived">Date Received</label>
-                          <input type="date" id="datereceived" class="form-control round" name="datereceived">
+                          <input type="date" id="datereceived" class="form-control round" name="date_received">
                         </div>
                         <div class="form-group">
                           <label for="receivedby">Received By</label>
-                          <input type="text" id="receivedby" class="form-control round" placeholder="receiver's name" name="receiver">
+                          <input type="text" id="receivedby" class="form-control round" placeholder="receiver's name" name="received_by">
                         </div>
                         <div class="form-group">
                           <label for="amount">Amount</label>
@@ -126,14 +192,14 @@
                         </div>
                         <div class="form-group">
                               <label for="completed">Completed?</label>
-                              <select id="completed" name="interested" class="form-control round">
-                                <option value="design">No</option>
-                                <option value="development">Yes</option>
+                              <select id="completed" name="completed" class="form-control round">
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
                               </select>
                         </div>
                         <div class="form-group">
                           <label for="collectdate">Date To Collect</label>
-                          <input type="date" id="collectdate" class="form-control round" name="collectdate">
+                          <input type="date" id="collectdate" class="form-control round" name="date_collected">
                         </div>
                       </div>
                       <div class="form-actions">
@@ -151,10 +217,8 @@
         <!-- // Basic form layout section end -->
       </div>
     </div>
-  </div>
+    </div>
     <!-- END: Content-->
-
-
     <!-- BEGIN: Customizer-->
     <?php include_once("includes/customizer.php"); ?>
     <!-- End: Customizer-->
@@ -162,8 +226,6 @@
     <!-- BEGIN: Footer-->
     <?php include_once("includes/footer.php"); ?>
     <!-- END: Footer-->
-
-
     <!-- BEGIN: Vendor JS-->
     <script src="app-assets/vendors/js/vendors.min.js"></script>
     <!-- BEGIN Vendor JS-->
