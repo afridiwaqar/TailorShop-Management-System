@@ -69,7 +69,7 @@ if (!is_user()) {
 								</li>
 								<li class="breadcrumb-item"><a href="#">Customers</a>
 								</li>
-								<li class="breadcrumb-item active">All Customers
+								<li class="breadcrumb-item ">All Customers
 								</li>
 							</ol>
 						</div>
@@ -124,19 +124,19 @@ $counter = 1;
 		}
 		$mes = $pdo->query("SELECT * FROM `measurement` WHERE `customer_id` = ".$data['id']." LIMIT 1");
 		if(!$mes->fetch(PDO::FETCH_ASSOC)){
-		$measure = '<a href="addmeasurement.php?id='.$data['id'].'" class="btn btn-warning btn-xs">Add Meas</a>';
+		$measure = '<a href="addmeasurement.php?id='.$data['id'].'" class="btn btn-warning btn-xs">Add Measurement</a>';
 		}
 		else{
-		$measure = '<a href="editmeasurement.php?id='.$data['id'].'" class="btn btn-warning btn-xs">Edit Meas</a>';
+		$measure = '<a href="editmeasurement.php?id='.$data['id'].'" class="btn btn-warning btn-xs">Edit Measurement</a>';
 		}
  echo "
 	<tr>
 	 <td>$counter</td>
-	 <td><a href='customeredit.php?id=$data[id]'>$data[fullname]</a></td>
+	 <td><a href='edit-customer.php?id=$data[id]'>$data[fullname]</a></td>
 	 <td>$data[address]</td>
 	 <td>$data[phonenumber]</td>
 	 <td>$data[sex]</td>
-	 <td><a href='orderadd.php?id=$data[id]' class='btn btn-success btn-xs'>New Order</a>$measure
+	 <td><a href='add-order.php?id=$data[id]' class='btn btn-success btn-xs'>New Order</a>$measure
 		<a href='all-customers.php?id=$data[id]'><button type='button' class='btn btn-danger btn-xs'>DELETE</button></a>
 		</td>
 	</tr>
